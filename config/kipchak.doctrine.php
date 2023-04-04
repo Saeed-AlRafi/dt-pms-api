@@ -9,7 +9,7 @@ return
         'connections' => [
             // https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
                 'primary' => [
-                    'dbname' => 'mydb',
+                    'dbname' => 'api',
                     'user' => env('DB_USER', 'api'),
                     'password' =>  env('DB_PASSWORD', 'api'),
                     'host' => env('DB_HOST', 'mysql'),
@@ -21,7 +21,7 @@ return
     ],
 
     'orm' => [
-        'enabled' => false,
+        'enabled' => true,
         'entity_managers' => [
             'primary' => [
                 // Enables or disables Doctrine metadata caching

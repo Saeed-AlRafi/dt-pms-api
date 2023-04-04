@@ -2,6 +2,7 @@
     "name": "mamluk/kipchak-template",
     "type": "template",
     "require": {
+        "doctrine/annotations": "^2.0",
         "mamluk/kipchak": "^0.30"
     },
     "require-dev": {

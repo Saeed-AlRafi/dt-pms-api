@@ -1,23 +1,131 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: 'Mamluk Sultans API'
-  description: "All Contollers extending Controllers\\Slim Contain the Service / DI Container as a protected property called $container.\nAccess it using $this->container in your controller.\nDefault objects bundled into a container are:\nlogger - which returns an instance of \\Monolog\\Logger. This is also a protected property on your controller. Access it using $this->logger."
-  version: '0.1'
+  description: "This is a API that will transfer patient data to the machine learning alogrithm The patient data includes: 
+                 Their Vitals: Oxygen level, Heart rate, Blood pressure, Blood sugar, temperature.
+                 Their Information: Name, Age, Gender.
+                 Contact Information: Address, phone number, email.
+                 Care taker information: Name, Phone number, Email."
+  version: 1.0.0
+  title: Digital-Twin Patient Monitoring System API
+  termsOfService: NA
+  contact:
+    email: please-dont@me.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: patient
+    description: Everything about my Patients
 paths:
-  /v1/sultans:
+  /patient/{id}:
     get:
-      operationId: 0ff3b676ed71f9fd87b86497d9ff75d6
+      tags:
+        - patient
+      summary: Get the patient details
+      description: "dont die, if you do dont sue me"
+      operationId: getPatient
+      parameters: 
+      - name: id
+        in: path
+        description: "A unique ID to represent a patient."
+        required: true 
+        example: 123
+        schema: 
+          type: integer 
+            
       responses:
-        '200':
-          description: 'Returns a list of Sultans'
-components:
-  schemas:
-    MamlukSultan:
-      properties:
-        yearFrom:
-          type: integer
-        yearTo:
-          type: integer
-        name:
-          type: string
-      type: object
+        "200":
+          description: Patient object in all its glory
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  id:
+                    type: number
+                    format: float
+                    description: "ID of the patient"
+                    example: 007
+                  vitals:
+                    type: object
+                    properties:
+                      o2level:
+                        type: number
+                        format: float
+                        description: "O2 level of the patient (is a percentage)"
+                        example: 100
+                      blood_pressure:
+                        type: number
+                        format: float
+                        description: "Blood pressure of the patient"
+                        example: 100
+                      blood_sugar:
+                        type: number
+                        format: float
+                        description: "Blood sugar of the patient"
+                        example: 29
+                      heart_rate:
+                        type: number
+                        format: float
+                        description: "Heart Rate of the patient"
+                        example: 54
+                      Temperature:
+                        type: number
+                        format: float
+                        description: "Temperature of the patient"
+                        example: 36
+                  patientinfo:
+                    type: object
+                    properties: 
+                      name:
+                        type: string
+                        format: utf8
+                        description: "come on buddy its the name, not that hard is it?"
+                        example: Mikhail
+                      age:
+                        type: number
+                        description: "really?"
+                        example: 32
+                      gender:
+                        type: string
+                        format: utf8
+                        description: "there are only 2"
+                        example: Male
+                      contactinfo:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                            format: utf8
+                            description: "Patient Address"
+                            example: Next to Mikhails Neighbors home (UAE_Dubai_Mirdif2_st13_villa24)
+                          phone:
+                            type: string
+                            format: utf8
+                            description: "phone number"
+                            example: 9715055259595
+                          email:
+                            type: string
+                            format: utf8
+                            description: "Email Address"
+                            example: Mikhail@emirates.com
+                  caretakerinfo:
+                    type: object
+                    properties:
+                          name:
+                            type: string
+                            format: utf8
+                            description: "Patient Address"
+                            example: Saeed
+                          phone:
+                            type: string
+                            format: utf8
+                            description: "phone number"
+                            example: 9715055259596
+                          email:
+                            type: string
+                            format: utf8
+                            description: "Email Address"
+                            example: Saeed@emirates.com
+servers:
+  - url: https://localhost/v1

@@ -19,6 +19,7 @@ services:
       DB_PORT: "3306"
       MEMCACHED_HOST: "memcached"
       MEMCACHED_PORT: 11211
+      COUCHDB_PORT: 5984
     ports:
       - "80:8080"
     volumes:
@@ -35,6 +36,13 @@ services:
       MYSQL_DATABASE: "api"
     container_name: mysql
 
+  phpmyadmin: 
+    image: phpmyadmin
+    environment:
+      PMA_HOST: "mysql"
+    ports:
+      - "8080:80"
+
   couchdb:
     image: couchdb:3.2
     environment:
@@ -45,6 +53,6 @@ services:
     container_name: couchdb
 
   memcached:
-    image: memcached:1.5
+    image: memcached:1.6
     container_name: memcached
 

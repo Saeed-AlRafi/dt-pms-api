@@ -10,7 +10,7 @@ return [
             'port' => getenv('COUCHDB_PORT') !== false ? (int) getenv('COUCHDB_PORT') : null,
             'username' => env('COUCHDB_USER', 'api'),
             'password' => env('COUCHDB_PASSWORD', 'api'),
-            'database' => env('COUCHDB_DATABASE', 'api_database')
+            'database' => env('COUCHDB_DATABASE', 'api')
         ]
     ]
 ];
