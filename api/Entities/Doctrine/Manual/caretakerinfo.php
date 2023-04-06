@@ -2,7 +2,7 @@
 
 // api/Entities/Doctrine/Primary/caretakerinfo.php
 
-namespace Api\Entities\Doctrine\Primary;
+namespace Api\Entities\Doctrine\Manual;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,6 +14,7 @@ class caretakerinfo
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
      /**

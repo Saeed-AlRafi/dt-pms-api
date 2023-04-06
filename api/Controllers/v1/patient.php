@@ -6,8 +6,7 @@ use Mamluk\Kipchak\Components\Controllers;
 use Mamluk\Kipchak\Components\Http;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-
+use Api\Entities\Doctrine\Primary;
 /**
  * All Controllers extending Controllers\Slim Contain the Service / DI Container as a protected property called $container.
  * Access it using $this->container in your controller.
@@ -39,8 +38,22 @@ use Psr\Http\Message\ServerRequestInterface;
         var_dump($payload);
         $patientinfo = $payload['patientinfo'];
         $contactinfo = $patientinfo['contactinfo'];
-        $caretakerinfo = $payload['caretakerinfo'];
-        $allpatients = $this->entityManager->getRepository('\Api\Entities\Doctrine\Primary\Surat')->findAll();
+        // $caretakerinfo = $payload['caretakerinfo'];
+        
+        $npi = new Primary\patientinfo();
+        $npi->setName($patientinfo['name']);
+        $npi->setAge($patientinfo['age']);
+        $npi->setGender($patientinfo['gender']);
+
+        $nci = new Primary\contactinfo();
+        $nci->setPhone($contactinfo['phone']);
+        $nci->setEmail($contactinfo['email']);
+        $nci->setAddress($contactinfo['address']);
+
+        exit;
+
+
+        $allpatients = $this->entityManager->getRepository(Primary/patient::class)->findAll();
         if (!($allpatient['name'] == $patientinfo['name'] && $allpatients['email'] == $contactinfo['email']))
         {
             $payload.dump();

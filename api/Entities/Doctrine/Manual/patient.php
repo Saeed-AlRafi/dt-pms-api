@@ -2,7 +2,7 @@
 
 // api/Entities/Doctrine/Primary/patient.php
 
-namespace Api\Entities\Doctrine\Primary;
+namespace Api\Entities\Doctrine\Manual;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,10 +14,11 @@ class patient
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     protected $id;
      /**
-     * @ORM\OneToMany(targetEntity="vitals",inversedBy="patient")
+     * @ORM\OneToMany(targetEntity="vitals",mappedBy="patient")
      */
     protected $vitals;
      /**
