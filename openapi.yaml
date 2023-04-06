@@ -22,7 +22,7 @@ paths:
       tags:
         - patient
       summary: Get the patient details
-      description: "dont die, if you do dont sue me"
+      description: "dont die, if you do; dont sue me"
       operationId: getPatient
       parameters: 
       - name: id
@@ -54,17 +54,17 @@ paths:
                         format: float
                         description: "O2 level of the patient (is a percentage)"
                         example: 100
-                      blood_pressure:
+                      bloodpressure:
                         type: number
                         format: float
                         description: "Blood pressure of the patient"
                         example: 100
-                      blood_sugar:
+                      bloodsugar:
                         type: number
                         format: float
                         description: "Blood sugar of the patient"
                         example: 29
-                      heart_rate:
+                      heartrate:
                         type: number
                         format: float
                         description: "Heart Rate of the patient"

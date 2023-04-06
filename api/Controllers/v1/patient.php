@@ -37,7 +37,19 @@ use Psr\Http\Message\ServerRequestInterface;
         $payload = $request->getParsedBody();
 
         var_dump($payload);
-
+        $patientinfo = $payload['patientinfo'];
+        $contactinfo = $patientinfo['contactinfo'];
+        $caretakerinfo = $payload['caretakerinfo'];
+        $allpatients = $this->entityManager->getRepository('\Api\Entities\Doctrine\Primary\Surat')->findAll();
+        if (!($allpatient['name'] == $patientinfo['name'] && $allpatients['email'] == $contactinfo['email']))
+        {
+            $payload.dump();
+        } 
+        else
+        {
+            return "Error: Duplicate information.";
+        }
+        
         exit;
 
         return Http\Response::json($response,
