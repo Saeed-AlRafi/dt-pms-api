@@ -19,14 +19,17 @@ class patient
     protected $id;
      /**
      * @ORM\OneToMany(targetEntity="vitals",mappedBy="patient")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     protected $vitals;
      /**
      * @ORM\OneToOne(targetEntity="patientinfo",inversedBy="patient")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     protected $patientinfo;
      /**
      * @ORM\OneToOne(targetEntity="caretakerinfo",inversedBy="patient")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     protected $caretakerinfo;
      /**

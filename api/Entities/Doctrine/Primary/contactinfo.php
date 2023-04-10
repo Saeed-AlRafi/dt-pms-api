@@ -31,6 +31,7 @@ class contactinfo
     protected $email;
     /**
      * @ORM\OneToOne(targetEntity="patientinfo",mappedBy="contactinfo")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      **/
     protected $patientinfo;
 

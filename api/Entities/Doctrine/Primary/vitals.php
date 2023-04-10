@@ -39,6 +39,7 @@ class vitals
     protected $bloodsugar;
     /**
      * @ORM\ManyToOne(targetEntity="patient",inversedBy="vitals")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      **/
     protected $patient;
     /**
