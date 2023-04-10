@@ -32,7 +32,7 @@ return
                 // Metadata can be either YML/XML files or PHP classes annotated
                 // with comments or PHP8 attributes (effectively Doctrine's database entities)
                 'metadata_dirs' => [
-                    realpath(__DIR__ . '/../api/Entities/Doctrine/Manual')
+                    realpath(__DIR__ . '/../api/Entities/Doctrine/Primary')
                 ],
                 'metadata_format' => 'annotations', // attributes or annotations
                 'connection' => 'primary', // Name of connection from 'dbal' above to use for the ORM

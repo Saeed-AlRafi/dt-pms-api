@@ -1,7 +1,7 @@
 <?php
 
 namespace Api\Controllers\v1;
-
+use Api\Controllers\MC;
 use Mamluk\Kipchak\Components\Controllers;
 use Mamluk\Kipchak\Components\Http;
 use Psr\Http\Message\ResponseInterface;
@@ -14,7 +14,7 @@ use Api\Entities\Doctrine\Primary;
  * logger - which returns an instance of \Monolog\Logger. This is also a protected property on your controller. Access it using $this->logger.
  */
 
- class patient extends Controllers\Slim
+ class patient extends MC
  {
  
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -33,23 +33,43 @@ use Api\Entities\Doctrine\Primary;
     {
         // Read the body.
 
-        $payload = $request->getParsedBody();
+        $payload = $request->getParsedBody(); //get the payload
 
-        var_dump($payload);
-        $patientinfo = $payload['patientinfo'];
-        $contactinfo = $patientinfo['contactinfo'];
+        $patientinfo = $payload['patientinfo']; //take the patient info from the payload into object
+        $contactinfo = $patientinfo['contactinfo']; //take the contact info from patient info object to a contact info object
         // $caretakerinfo = $payload['caretakerinfo'];
         
-        $npi = new Primary\patientinfo();
+        $npi = new Primary\patientinfo();//make new patient info and set all variables
         $npi->setName($patientinfo['name']);
         $npi->setAge($patientinfo['age']);
         $npi->setGender($patientinfo['gender']);
-
-        $nci = new Primary\contactinfo();
+         
+        $this->em->persist($npi);
+        echo "done";
+        
+        $nci = new Primary\contactinfo();//make new contact info and set all the variables.
         $nci->setPhone($contactinfo['phone']);
         $nci->setEmail($contactinfo['email']);
         $nci->setAddress($contactinfo['address']);
 
+
+       
+        $npi->setContactinfo($nci);//add contact info to patient info, then patient info into a new patient
+        
+
+        $np = new Primary\patient();
+        $np->setPatientinfo($npi);
+
+        
+
+       
+        $this->em->persist($nci);
+        $this->em->persist($np);
+
+
+
+        $this->em->flush();//flush
+        echo "done";
         exit;
 
 

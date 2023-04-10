@@ -1,40 +1,38 @@
 <?php
 
-// api/Entities/Doctrine/Primary/caretakerinfo.php
-
 namespace Api\Entities\Doctrine\Primary;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ORM\Entity @ORM\Table(name="caretakerinfo")
- **/
+ * caretakerinfo
+ */
 class caretakerinfo
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var int
      */
-    protected $id;
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $ctname;     
+    private $id;
+
     /**
-    * @ORM\Column(type="string")
-    */
-   protected $ctphone;
-     /**
-     * @ORM\Column(type="string")
+     * @var string
      */
-    protected $ctemail;
-    
+    private $ctname;
+
     /**
-     * @ORM\OneToOne(targetEntity="patient",mappedBy="caretakerinfo")
-     **/
-    protected $patient;
-    
+     * @var string
+     */
+    private $ctphone;
+
+    /**
+     * @var float
+     */
+    private $ctemail;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\patient
+     */
+    private $patient;
+
+
     /**
      * Set id.
      *
@@ -154,5 +152,4 @@ class caretakerinfo
     {
         return $this->patient;
     }
-
 }

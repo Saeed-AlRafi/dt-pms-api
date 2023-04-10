@@ -1,40 +1,39 @@
 <?php
 
-// api/Entities/Doctrine/Primary/contactinfo.php
-
 namespace Api\Entities\Doctrine\Primary;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ORM\Entity @ORM\Table(name="contactinfo")
- **/
+ * contactinfo
+ */
 class contactinfo
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var int
      */
-    protected $id;
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $phone;
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $address;
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $email;
-    /**
-     * @ORM\OneToOne(targetEntity="patientinfo",mappedBy="contactinfo")
-     **/
-    protected $patientinfo;
+    private $id;
 
-       /**
+    /**
+     * @var string
+     */
+    private $phone;
+
+    /**
+     * @var float
+     */
+    private $address;
+
+    /**
+     * @var float
+     */
+    private $email;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\patientinfo
+     */
+    private $patientinfo;
+
+
+    /**
      * Set id.
      *
      * @param int $id

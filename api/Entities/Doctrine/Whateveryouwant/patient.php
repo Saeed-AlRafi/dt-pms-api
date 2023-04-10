@@ -1,35 +1,41 @@
 <?php
 
-// api/Entities/Doctrine/Primary/patient.php
-
 namespace Api\Entities\Doctrine\Primary;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ORM\Entity @ORM\Table(name="patient")
- **/
+ * patient
+ */
 class patient
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var int
      */
-    protected $id;
-     /**
-     * @ORM\OneToMany(targetEntity="vitals",mappedBy="patient")
+    private $id;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\patientinfo
      */
-    protected $vitals;
-     /**
-     * @ORM\OneToOne(targetEntity="patientinfo",inversedBy="patient")
+    private $patientinfo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
      */
-    protected $patientinfo;
-     /**
-     * @ORM\OneToOne(targetEntity="caretakerinfo",inversedBy="patient")
+    private $vitals;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\caretakerinfo
      */
-    protected $caretakerinfo;
-     /**
+    private $caretakerinfo;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->vitals = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Set id.
      *
      * @param int $id
@@ -136,5 +142,4 @@ class patient
     {
         return $this->caretakerinfo;
     }
-
 }

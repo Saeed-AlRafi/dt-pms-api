@@ -1,52 +1,53 @@
 <?php
 
-// api/Entities/Doctrine/Primary/vitals.php
-
 namespace Api\Entities\Doctrine\Primary;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ORM\Entity @ORM\Table(name="vitals")
- **/
+ * vitals
+ */
 class vitals
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var int
      */
-    protected $id;
-     /**
-     * @ORM\Column(type="float")
-     */
-    protected $bloodpressure;
-     /**
-     * @ORM\Column(type="float")
-     */
-    protected $o2;
-     /**
-     * @ORM\Column(type="float")
-     */
-    protected $heartrate;
-     /**
-     * @ORM\Column(type="float")
-     */
-    protected $temperature;
-     /**
-     * @ORM\Column(type="float")
-     */
-    protected $bloodsugar;
-    /**
-     * @ORM\ManyToOne(targetEntity="patient",inversedBy="vitals")
-     **/
-    protected $patient;
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $date;
+    private $id;
 
-    
+    /**
+     * @var float
+     */
+    private $bloodpressure;
+
+    /**
+     * @var float
+     */
+    private $o2;
+
+    /**
+     * @var float
+     */
+    private $heartrate;
+
+    /**
+     * @var float
+     */
+    private $temperature;
+
+    /**
+     * @var float
+     */
+    private $bloodsugar;
+
+    /**
+     * @var string
+     */
+    private $date;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\patient
+     */
+    private $patient;
+
+
     /**
      * Set id.
      *
@@ -238,6 +239,4 @@ class vitals
     {
         return $this->patient;
     }
-
-
 }

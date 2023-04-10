@@ -1,43 +1,42 @@
 <?php
 
-// api/Entities/Doctrine/Primary/patientinfo.php
-
 namespace Api\Entities\Doctrine\Primary;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ORM\Entity @ORM\Table(name="patientinfo")
- **/
+ * patientinfo
+ */
 class patientinfo
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var int
      */
-    protected $id;
+    private $id;
 
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $name;
-     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $age;
-     /**
-     * @ORM\Column(type="string")
-     */
-    protected $gender;
     /**
-     * @ORM\OneToOne(targetEntity="contactinfo",inversedBy="patientinfo")
-     **/
-    protected $contactinfo;
+     * @var string
+     */
+    private $name;
+
     /**
-     * @ORM\OneToOne(targetEntity="patient",mappedBy="patientinfo")
-     **/
-    protected $patient;
+     * @var int
+     */
+    private $age;
+
+    /**
+     * @var float
+     */
+    private $gender;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\contactinfo
+     */
+    private $contactinfo;
+
+    /**
+     * @var \Api\Entities\Doctrine\Primary\patient
+     */
+    private $patient;
+
 
     /**
      * Set id.
@@ -182,5 +181,4 @@ class patientinfo
     {
         return $this->patient;
     }
-
 }
