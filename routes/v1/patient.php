@@ -1,11 +1,12 @@
 <?php
 
 use Api\Controllers;
+use Api\Controllers\v1\patient;
 use Slim\Routing\RouteCollectorProxy;
 
 $app->group('/v1', function(RouteCollectorProxy $group) {
 
-    $group->get('/patients',
+    $group->get('/patients/{pid}',
         [
             Controllers\v1\patient::class,
             'get'
@@ -18,5 +19,12 @@ $app->group('/v1', function(RouteCollectorProxy $group) {
             'createpatient'
         ]
     );
+    $group->post('/patients/{pid}/vitals',
+        [
+            Controllers\v1\patient::class,
+            'addvitals'
+        ]
+    );
 
+    
 });

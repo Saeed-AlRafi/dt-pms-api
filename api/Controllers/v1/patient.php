@@ -8,6 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Api\Entities\Doctrine\Primary;
 use Api\Models\myfunctions;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * All Controllers extending Controllers\Slim Contain the Service / DI Container as a protected property called $container.
@@ -24,15 +26,28 @@ use Api\Models\myfunctions;
  
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $pid = Http\Request::getAttribute($request, 'pid');
+
+        
+        $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
+        if(is_null($p)){
+            return Http\Response::json($response,
+               'incorrect ID',
+            400
+        );
+        }
 
 
         return Http\Response::json($response,
-            [
-               'saeed is slow'
-            ],
+               $p,
             200
         );
 
+    }
+    public function deletepatient(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $payload = $request->getParsedBody();
+        // ???
     }
 
     
@@ -83,4 +98,6 @@ use Api\Models\myfunctions;
             200
         );
     }
+
+    
 }
