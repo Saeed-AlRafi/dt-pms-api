@@ -27,7 +27,7 @@ use Doctrine\Persistence\ObjectRepository;
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $pid = Http\Request::getAttribute($request, 'pid');
-
+        
         
         $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
         if(is_null($p)){
@@ -36,7 +36,8 @@ use Doctrine\Persistence\ObjectRepository;
             400
         );
         }
-
+        var_dump($p->getpatient());
+        //$pobj = new 
 
         return Http\Response::json($response,
                $p,
