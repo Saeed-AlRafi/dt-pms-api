@@ -25,6 +25,12 @@ $app->group('/v1', function(RouteCollectorProxy $group) {
             'addvitals'
         ]
     );
+    $group->post('/patients/{pid}/caretaker',
+    [
+        Controllers\v1\patient::class,
+        'addcaretaker'
+    ]
+    );
 
     $group->get('/patients/{pid}/info',
         [

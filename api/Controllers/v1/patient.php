@@ -15,6 +15,7 @@ use Api\Entities\Doctrine\Primary;
 use Api\Models\myfunctions;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
+use Exception;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -114,5 +115,41 @@ use Symfony\Component\VarDumper\VarDumper;
         );
     }
 
-    
+    public function addcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        //check if ID is valid
+        $pid = Http\Request::getAttribute($request, 'pid');
+        
+        
+        $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
+        //check if patient exists
+        if(is_null($p)){
+            return Http\Response::json($response,'Invalid ID',400);
+        }
+        //check if patient already has a caretaker.
+        if(!is_null($this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]))){
+            return Http\Response::json($response,'Patient already has care taker',400); 
+        }
+
+        //add info
+        $payload = $request->getParsedBody();
+
+        $ct = new Primary\caretakerinfo();
+        $ct->setCtname($payload['ctname']);
+        $ct->setCtemail($payload['ctemail']);
+        $ct->setctphone($payload['ctphone']);
+        $this->em->persist($ct);
+        $this->em->flush();
+        return Http\Response::json($response,'caretaker added sucessfully.',200);
+
+    }
+
+    public function addvitals(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        
+
+
+        
+        return Http\Response::json($response,'vitals added sucessfully.',200);
+    }
 }
