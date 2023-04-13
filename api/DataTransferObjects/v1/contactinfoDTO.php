@@ -19,15 +19,12 @@ class contactinfoDTO
      */
     public function __construct(
 
-    public int $id,
-
     public string $phone,
 
     public string $email,
 
     public string $address,
     
-    public patientinfoDTO $patientinfo
     ) {}
 
 }

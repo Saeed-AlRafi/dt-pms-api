@@ -26,5 +26,10 @@ $app->group('/v1', function(RouteCollectorProxy $group) {
         ]
     );
 
-    
+    $group->get('/patients/{pid}/info',
+        [
+            Controllers\v1\patient::class,
+            'getpatientinfo'
+        ]
+    );
 });

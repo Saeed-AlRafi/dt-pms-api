@@ -23,8 +23,6 @@ class vitalsDTO
      */
     public function __construct(
 
-    public int $id,
-
     public float $bloodsugar,
 
     public float $o2,
@@ -36,8 +34,6 @@ class vitalsDTO
     public float $bloodpressure,
 
     public datetime $date,
-    
-    public patientDTO $patient
     ) {}
 
 }

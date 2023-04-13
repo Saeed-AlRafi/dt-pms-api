@@ -137,4 +137,9 @@ class patient
         return $this->caretakerinfo;
     }
 
+    public function getpatient(){
+        return $this; //not working
+    }
+    
+
 }

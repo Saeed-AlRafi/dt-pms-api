@@ -2,6 +2,11 @@
 
 namespace Api\Controllers\v1;
 use Api\Controllers\MC;
+use Api\DataTransferObjects\v1\caretakerinfoDTO;
+use Api\DataTransferObjects\v1\contactinfoDTO;
+use Api\DataTransferObjects\v1\patientinfoDTO;
+use Api\DataTransferObjects\v1\patientDTO;
+use Api\DataTransferObjects\v1\vitalsDTO;
 use Mamluk\Kipchak\Components\Controllers;
 use Mamluk\Kipchak\Components\Http;
 use Psr\Http\Message\ResponseInterface;
@@ -10,6 +15,7 @@ use Api\Entities\Doctrine\Primary;
 use Api\Models\myfunctions;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * All Controllers extending Controllers\Slim Contain the Service / DI Container as a protected property called $container.
@@ -24,7 +30,7 @@ use Doctrine\Persistence\ObjectRepository;
  class patient extends MC
  {
  
-    public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getpatientinfo(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $pid = Http\Request::getAttribute($request, 'pid');
         
@@ -32,15 +38,23 @@ use Doctrine\Persistence\ObjectRepository;
         $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
         if(is_null($p)){
             return Http\Response::json($response,
-               'incorrect ID',
+               'Invalid ID',
             400
         );
         }
-        var_dump($p->getpatient());
-        //$pobj = new 
+        $pi = $p->getpatientinfo();
+        $ci= $pi->getContactinfo();
+        //$ca = $p->getCaretakerinfo();
+        //$v = $p->getVitals();
+        
+        $cidto =  new contactinfoDTO($ci->getPhone(),$ci->getEmail(),$ci->getAddress());
+        //$caidto = new caretakerinfoDTO($ca->getCtname(),$ca->getCtphone(),$ca->getCtemail());
+        $pidto = new patientinfoDTO($pi->getName(), $pi->getAge(), $pi->getGender(), $cidto);
+        //$vdto = new vitalsDTO($v->getBloodsugar(), $v->getO2(), $v->getHeartrate(),$v->getTemperature(),$v->getBloodpressure(),$v->getDate());
+        //$pdto = new patientDTO($pid, $pidto, $vdto, $caidto);
 
         return Http\Response::json($response,
-               $p,
+                $pidto,
             200
         );
 
@@ -60,7 +74,7 @@ use Doctrine\Persistence\ObjectRepository;
 
         $patientinfo = $payload['patientinfo']; //take the patient info from the payload into object
         $contactinfo = $patientinfo['contactinfo']; //take the contact info from patient info object to a contact info object
-        // $caretakerinfo = $payload['caretakerinfo'];
+        $caretakerinfo = $payload['caretakerinfo'];
 
         $myfunc = new myfunctions($this->em); //create a my functions object(/api/Models/myfunctions.php). send the entity manager. 
         if($myfunc->isDuplicate($patientinfo['name'], $contactinfo['phone'])){
