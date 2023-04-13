@@ -119,8 +119,6 @@ use Symfony\Component\VarDumper\VarDumper;
     {
         //check if ID is valid
         $pid = Http\Request::getAttribute($request, 'pid');
-        
-        
         $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
         //check if patient exists
         if(is_null($p)){
@@ -143,13 +141,79 @@ use Symfony\Component\VarDumper\VarDumper;
         return Http\Response::json($response,'caretaker added sucessfully.',200);
 
     }
+    public function getcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+        
+        $pid = Http\Request::getAttribute($request, 'pid');
+        
+        $p = $this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]);
+        if(is_null($p)){
+            return Http\Response::json($response,
+               'Invalid ID',
+            400
+        );
+        }
+        //$pi = $p->getpatientinfo();
+        //$ci= $pi->getContactinfo();
+        //$ca = $p->getCaretakerinfo();
+        //$v = $p->getVitals();
+        
+        //$cidto =  new contactinfoDTO($ci->getPhone(),$ci->getEmail(),$ci->getAddress());
+        $cadto = new caretakerinfoDTO($p->getCtname(),$p->getCtphone(),$p->getCtemail());
+        //$pidto = new patientinfoDTO($pi->getName(), $pi->getAge(), $pi->getGender(), $cidto);
+        //$vdto = new vitalsDTO($v->getBloodsugar(), $v->getO2(), $v->getHeartrate(),$v->getTemperature(),$v->getBloodpressure(),$v->getDate());
+        //$pdto = new patientDTO($pid, $pidto, $vdto, $caidto);
+
+        return Http\Response::json($response,
+                $cadto,
+            200
+        );
+    }
 
     public function addvitals(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        
+        //check if ID is valid
+        $pid = Http\Request::getAttribute($request, 'pid');
+        $p = $this->em->getRepository(Primary\patient::class)->findAllBy(['id' => $pid]);
+        var_dump($p);
+        exit;
+        //check if patient exists
+        if(is_null($p)){return Http\Response::json($response,'Invalid ID',400);}
+        //check if patient already has a caretaker.
+        if(!is_null($this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]))){
+            return Http\Response::json($response,'Patient already has care taker',400); 
+        }
 
 
         
         return Http\Response::json($response,'vitals added sucessfully.',200);
     }
+    public function getvitalsbydate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+        
+        $pid = Http\Request::getAttribute($request, 'pid');
+        $vdate = Http\Request::getAttribute($request, 'date');
+        
+        $p = $this->em->getRepository(Primary\vitals::class)->findOneBy(['id' => $pid, 'date' => $vdate]);
+        if(is_null($p)){
+            return Http\Response::json($response,
+               'Invalid ID or Date',
+            400
+        );
+        }
+        //$pi = $p->getpatientinfo();
+        //$ci= $pi->getContactinfo(); 
+        //$ca = $p->getCaretakerinfo();
+        //$v = $p->getVitals();
+        
+        //$cidto =  new contactinfoDTO($ci->getPhone(),$ci->getEmail(),$ci->getAddress());
+        //$cadto = new caretakerinfoDTO($p->getCtname(),$p->getCtphone(),$p->getCtemail());
+        //$pidto = new patientinfoDTO($pi->getName(), $pi->getAge(), $pi->getGender(), $cidto);
+        $vdto = new vitalsDTO($p->getBloodsugar(), $p->getO2(), $p->getHeartrate(),$p->getTemperature(),$p->getBloodpressure(),$p->getDate());
+        //$pdto = new patientDTO($pid, $pidto, $vdto, $caidto);
+
+        return Http\Response::json($response,
+                $vdto,
+            200
+        );
+    } //make this return index of date times
+
 }

@@ -38,4 +38,22 @@ $app->group('/v1', function(RouteCollectorProxy $group) {
             'getpatientinfo'
         ]
     );
+    $group->get('/patients/{pid}/caretaker',
+        [
+            Controllers\v1\patient::class,
+            'getcaretaker'
+        ]
+    );
+    $group->get('/patients/{pid}/vitals',
+        [
+            Controllers\v1\patient::class,
+            'getvitals'
+        ]
+    );
+    $group->get('/patients/{pid}/vitals/{date}',
+        [
+            Controllers\v1\patient::class,
+            'getvitalsbydate'
+        ]
+    );
 });
