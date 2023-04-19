@@ -98,7 +98,7 @@ class patient
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeVital(\Api\Entities\Doctrine\Primary\vitals $vital)
+    public function removeVital(\Api\Entities\Doctrine\Primary\vitals $vital) //removes one vital
     {
         return $this->vitals->removeElement($vital);
     }

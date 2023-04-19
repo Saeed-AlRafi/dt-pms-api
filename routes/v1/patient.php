@@ -56,4 +56,10 @@ $app->group('/v1', function(RouteCollectorProxy $group) {
             'getvitalsbydate'
         ]
     );
+    $group->delete('/patients/{pid}/',
+        [
+            Controllers\v1\patient::class,
+            'deletepatient'
+        ]
+        );
 });
