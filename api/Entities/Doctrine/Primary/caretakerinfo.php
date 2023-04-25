@@ -17,6 +17,11 @@ class caretakerinfo
      * @ORM\GeneratedValue
      */
     protected $id;
+    /**
+     * @ORM\Index
+     * @ORM\Column(type="integer")
+     */
+    protected $patient_id;
      /**
      * @ORM\Column(type="string")
      */
@@ -32,7 +37,7 @@ class caretakerinfo
     
     /**
      * @ORM\OneToOne(targetEntity="patient",mappedBy="caretakerinfo")
-     * @ORM\JoinColumn(name="caretakerinfo_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id")
      **/
     protected $patient;
     

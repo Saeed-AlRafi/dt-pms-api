@@ -36,7 +36,7 @@ class patientinfo
     protected $contactinfo;
     /**
      * @ORM\OneToOne(targetEntity="patient",inversedBy="patientinfo")
-     * @ORM\JoinColumn(name="patientinfo_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="patient_id", referencedColumnName="id")
      **/
     protected $patient;
 

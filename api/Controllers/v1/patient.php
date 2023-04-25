@@ -140,7 +140,6 @@ use Symfony\Component\VarDumper\VarDumper;
         $npi->setName($patientinfo['name']);
         $npi->setAge($patientinfo['age']);
         $npi->setGender($patientinfo['gender']);
-         
         $this->em->persist($npi);
         
         $nci = new Primary\contactinfo();//make new contact info and set all the variables.
@@ -176,7 +175,7 @@ use Symfony\Component\VarDumper\VarDumper;
             return Http\Response::json($response,'Invalid ID',400);
         }
         //check if patient already has a caretaker.
-        if(!is_null($this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]))){
+        if(!is_null($this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['patient_id' => $pid]))){
             return Http\Response::json($response,'Patient already has care taker',400); 
         }
 
@@ -187,6 +186,7 @@ use Symfony\Component\VarDumper\VarDumper;
         $ct->setCtname($payload['ctname']);
         $ct->setCtemail($payload['ctemail']);
         $ct->setctphone($payload['ctphone']);
+        $ct->setpatient($p);
         $this->em->persist($ct);
         $this->em->flush();
         return Http\Response::json($response,'caretaker added sucessfully.',200);
