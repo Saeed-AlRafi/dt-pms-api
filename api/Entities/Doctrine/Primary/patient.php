@@ -29,6 +29,15 @@ class patient
      * @ORM\OneToOne(targetEntity="caretakerinfo",inversedBy="patient")
      */
     protected $caretakerinfo;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $caretakerinfo_id;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $patientinfo_id;
      /**
      * Set id.
      *

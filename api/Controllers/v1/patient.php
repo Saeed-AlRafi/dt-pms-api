@@ -74,45 +74,41 @@ use Symfony\Component\VarDumper\VarDumper;
         $ci = $this->em->getRepository(Primary\contactinfo::class)->findOneBy(['id' => $pid]);
         $ca = $this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]);
         $vi = $this->em->getRepository(Primary\vitals::class)->findAll(['id' => $pid]);
-        $pi->setName(null);
-        $pi->setGender(null);
-        $pi->setAge(null);
-        $ci->setPhone(null);
-        $ci->setAddress(null);
-        $ci->setEmail(null);
-        $pi->setContactinfo(null);
-      //  $ca->setCtemail(null);
-      //  $ca->setCtname(null);
-      //  $ca->setCtphone(null);
-        
+        //$pi->setName(null);
+        //$pi->setGender(null);
+        //$pi->setAge(null);
+        //$ci->setPhone(null);
+        //$ci->setAddress(null);
+        //$ci->setEmail(null);
+        //$pi->setContactinfo(null);
+        //$ca->setCtemail(null);
+        //$ca->setCtname(null);
+        //$ca->setCtphone(null);
+       
+       
+   
         $p->setPatientinfo(null);
         $p->setCaretakerinfo(null);
-        foreach ($vi as $v){
-            $p->removeVital($v);
-        } //must get all vitals then do remove every vital
-        $p->setId(null);
-
-
         
         if(!is_null($ci))
-            $this->em->persist($ci);
+            $this->em->remove($ci);
         echo 'check1';
 
         if(!is_null($pi))
-            $this->em->persist($pi);
+            $this->em->remove($pi);
         echo 'check2';
 
         if(!is_null($vi))
             foreach ($vi as $v){
-                $this->em->persist($v);
+                $this->em->remove($v);//must get all vitals then do remove every vital
             } 
         echo 'check3';
 
         if(!is_null($ca))
             $this->em->persist($ca);
         echo 'check4';
-
-        $this->em->persist($p);
+        
+        $this->em->remove($p);
         echo 'check5';
 
 

@@ -17,6 +17,10 @@ class patientinfo
      * @ORM\GeneratedValue
      */
     protected $id;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $contactinfo_id;
 
      /**
      * @ORM\Column(type="string")
@@ -36,7 +40,7 @@ class patientinfo
     protected $contactinfo;
     /**
      * @ORM\OneToOne(targetEntity="patient",mappedBy="patientinfo")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id", referencedColumnName="patientinfo_id")
      **/
     protected $patient;
 

@@ -32,7 +32,7 @@ class caretakerinfo
     
     /**
      * @ORM\OneToOne(targetEntity="patient",mappedBy="caretakerinfo")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="id", referencedColumnName="caretakerinfo_id")
      **/
     protected $patient;
     
