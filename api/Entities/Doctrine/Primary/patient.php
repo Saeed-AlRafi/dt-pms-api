@@ -22,22 +22,14 @@ class patient
      */
     protected $vitals;
      /**
-     * @ORM\OneToOne(targetEntity="patientinfo",inversedBy="patient")
+     * @ORM\OneToOne(targetEntity="patientinfo",mappedBy="patient")
      */
     protected $patientinfo;
      /**
-     * @ORM\OneToOne(targetEntity="caretakerinfo",inversedBy="patient")
+     * @ORM\OneToOne(targetEntity="caretakerinfo",mappedBy="patient")
      */
     protected $caretakerinfo;
     
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $caretakerinfo_id;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $patientinfo_id;
      /**
      * Set id.
      *

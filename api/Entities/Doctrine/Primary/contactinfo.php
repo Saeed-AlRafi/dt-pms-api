@@ -30,8 +30,8 @@ class contactinfo
      */
     protected $email;
     /**
-     * @ORM\OneToOne(targetEntity="patientinfo",mappedBy="contactinfo")
-     * @ORM\JoinColumn(name="id", referencedColumnName="contactinfo_id")
+     * @ORM\OneToOne(targetEntity="patientinfo",inversedBy="contactinfo")
+     * @ORM\JoinColumn(name="contactinfo_id", referencedColumnName="id")
      **/
     protected $patientinfo;
 
