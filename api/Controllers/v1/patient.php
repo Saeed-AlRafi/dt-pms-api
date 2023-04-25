@@ -18,6 +18,8 @@ use Doctrine\Persistence\ObjectRepository;
 use Exception;
 use Symfony\Component\VarDumper\VarDumper;
 
+use function PHPUnit\Framework\isNull;
+
 /**
  * All Controllers extending Controllers\Slim Contain the Service / DI Container as a protected property called $container.
  * Access it using $this->container in your controller.
@@ -118,7 +120,7 @@ use Symfony\Component\VarDumper\VarDumper;
     }
 
     
-    public function createpatient(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function createpatient(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface //fixed
     {
         // Read the body.
 
@@ -129,6 +131,7 @@ use Symfony\Component\VarDumper\VarDumper;
         $caretakerinfo = $payload['caretakerinfo'];
 
         $myfunc = new myfunctions($this->em); //create a my functions object(/api/Models/myfunctions.php). send the entity manager. 
+        echo $patientinfo['name'], $contactinfo['phone'];
         if($myfunc->isDuplicate($patientinfo['name'], $contactinfo['phone'])){
             return Http\Response::json($response,
             'Duplicate Information.',
@@ -140,18 +143,30 @@ use Symfony\Component\VarDumper\VarDumper;
         $npi->setName($patientinfo['name']);
         $npi->setAge($patientinfo['age']);
         $npi->setGender($patientinfo['gender']);
-        $this->em->persist($npi);
+        
         
         $nci = new Primary\contactinfo();//make new contact info and set all the variables.
         $nci->setPhone($contactinfo['phone']);
         $nci->setEmail($contactinfo['email']);
         $nci->setAddress($contactinfo['address']);
 
-        $npi->setContactinfo($nci);//add contact info to patient info, then patient info into a new patient
-        
+        $nci->setPatientinfo($npi);//assign Patient info and contact info to one another.
+        $npi->setContactinfo($nci);
         $np = new Primary\patient();
+        
+        $npi->setPatient($np);
         $np->setPatientinfo($npi);
-       
+        if(!isNull($caretakerinfo)){//if caretaker is provided add it.
+            $nca = new Primary\caretakerinfo();
+            $nca->setCtemail($caretakerinfo['ctemail']);
+            $nca->setCtname($caretakerinfo['ctname']);
+            $nca->SetCtphone($caretakerinfo['ctphone']);
+            $nca->setPatient($np);
+            $np->setCaretakerinfo($nca);
+            $this->em->persist($nca);
+        }
+
+        $this->em->persist($npi);
         $this->em->persist($nci);
         $this->em->persist($np);
 
@@ -165,7 +180,7 @@ use Symfony\Component\VarDumper\VarDumper;
         );
     }
 
-    public function addcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function addcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface //fixed
     {
         //check if ID is valid
         $pid = Http\Request::getAttribute($request, 'pid');
@@ -175,7 +190,7 @@ use Symfony\Component\VarDumper\VarDumper;
             return Http\Response::json($response,'Invalid ID',400);
         }
         //check if patient already has a caretaker.
-        if(!is_null($this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['patient_id' => $pid]))){
+        if(!is_null($p->getCaretakerinfo())){
             return Http\Response::json($response,'Patient already has care taker',400); 
         }
 
@@ -187,12 +202,14 @@ use Symfony\Component\VarDumper\VarDumper;
         $ct->setCtemail($payload['ctemail']);
         $ct->setctphone($payload['ctphone']);
         $ct->setpatient($p);
+        $p->setCaretakerinfo($ct);
         $this->em->persist($ct);
+        $this->em->persist($p);
         $this->em->flush();
         return Http\Response::json($response,'caretaker added sucessfully.',200);
 
     }
-    public function getcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+    public function getcaretaker(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {//fixed
         
         $pid = Http\Request::getAttribute($request, 'pid');
         
@@ -246,7 +263,7 @@ use Symfony\Component\VarDumper\VarDumper;
         
         return Http\Response::json($response,'vitals added sucessfully.',200);
     }
-    public function getvitalsbydate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+    public function getvitalsbydate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {//TBD
         
         $pid = Http\Request::getAttribute($request, 'pid');
         $vdate = Http\Request::getAttribute($request, 'date');
@@ -273,6 +290,6 @@ use Symfony\Component\VarDumper\VarDumper;
                 $vdto,
             200
         );
-    } //make this return index of date times
+    } 
 
 }

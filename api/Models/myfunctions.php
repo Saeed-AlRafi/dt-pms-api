@@ -5,6 +5,9 @@ namespace Api\Models;
 use Doctrine\ORM\EntityManager;
 use Api\Entities\Doctrine\Primary;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\VarDumper\VarDumper;
+
+use function PHPUnit\Framework\isNull;
 
 /**
  * Class myfunctions
@@ -37,23 +40,25 @@ class myfunctions
         $pwsn = $this->em->getRepository(Primary\patientinfo::class)->findBy(['name' => $tname]);
         
         $pwsp = $this->em->getRepository(Primary\contactinfo::class)->findBy(['phone' => $tphone]);
-
         /**
          * @var $i Primary\patientinfo::class
          */
+        if(!isNull($pwsn) && !isNull($pwsp)){
         foreach ($pwsn as $i) {
-            $nnp[] = $i->getPatient()->getId();
+            var_dump($i);
+            $nnp[] = $i->getpatient()->getId();
         }
         /**
          * @var $x Primary\contactinfo::class
          */
         foreach ($pwsp as $x){
-            $nnc[] = $x->getPatientinfo()->getpatient()->getId();
+            $nnc[] = $x->getpatientinfo()->getpatient()->getId();
         }
         $c = array_intersect($nnc, $nnp);
 
         return !empty($c);
-
+    }
+    return (false);
 
     }
 }
