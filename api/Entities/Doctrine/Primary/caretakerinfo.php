@@ -17,11 +17,6 @@ class caretakerinfo
      * @ORM\GeneratedValue
      */
     protected $id;
-    /**
-     * @ORM\Index
-     * @ORM\Column(type="integer")
-     */
-    protected $patient_id;
      /**
      * @ORM\Column(type="string")
      */
@@ -116,7 +111,7 @@ class caretakerinfo
     /**
      * Set ctemail.
      *
-     * @param float $ctemail
+     * @param string $ctemail
      *
      * @return caretakerinfo
      */
@@ -130,7 +125,7 @@ class caretakerinfo
     /**
      * Get ctemail.
      *
-     * @return float
+     * @return string
      */
     public function getCtemail()
     {

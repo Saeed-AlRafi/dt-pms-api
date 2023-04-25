@@ -196,20 +196,28 @@ use Symfony\Component\VarDumper\VarDumper;
         
         $pid = Http\Request::getAttribute($request, 'pid');
         
-        $p = $this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]);
+        $p = $this->em->getRepository(Primary\patient::class)->findOneBy(['id' => $pid]);
         if(is_null($p)){
             return Http\Response::json($response,
                'Invalid ID',
             400
         );
         }
+        $pc = $p->getCaretakerinfo();
+        if(is_null($pc)){
+            return Http\Response::json($response,
+               'Invalid ID',
+            400
+        );
+        }
+        
         //$pi = $p->getpatientinfo();
         //$ci= $pi->getContactinfo();
         //$ca = $p->getCaretakerinfo();
         //$v = $p->getVitals();
         
         //$cidto =  new contactinfoDTO($ci->getPhone(),$ci->getEmail(),$ci->getAddress());
-        $cadto = new caretakerinfoDTO($p->getCtname(),$p->getCtphone(),$p->getCtemail());
+        $cadto = new caretakerinfoDTO($pc->getCtname(),$pc->getCtphone(),$pc->getCtemail());
         //$pidto = new patientinfoDTO($pi->getName(), $pi->getAge(), $pi->getGender(), $cidto);
         //$vdto = new vitalsDTO($v->getBloodsugar(), $v->getO2(), $v->getHeartrate(),$v->getTemperature(),$v->getBloodpressure(),$v->getDate());
         //$pdto = new patientDTO($pid, $pidto, $vdto, $caidto);
