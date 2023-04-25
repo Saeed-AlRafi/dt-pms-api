@@ -72,26 +72,17 @@ use function PHPUnit\Framework\isNull;
             return Http\Response::json($response,'Invalid ID',400);
         }
 
-        $pi = $this->em->getRepository(Primary\patientinfo::class)->findOneBy(['id' => $pid]);;
-        $ci = $this->em->getRepository(Primary\contactinfo::class)->findOneBy(['id' => $pid]);
-        $ca = $this->em->getRepository(Primary\caretakerinfo::class)->findOneBy(['id' => $pid]);
-        $vi = $this->em->getRepository(Primary\vitals::class)->findAll(['id' => $pid]);
-        //$pi->setName(null);
-        //$pi->setGender(null);
-        //$pi->setAge(null);
-        //$ci->setPhone(null);
-        //$ci->setAddress(null);
-        //$ci->setEmail(null);
-        //$pi->setContactinfo(null);
-        //$ca->setCtemail(null);
-        //$ca->setCtname(null);
-        //$ca->setCtphone(null);
-       
-       
-   
+        $pi = $p->getpatientinfo();
+        $ca = $p->getCaretakerinfo();
+        $ci = $pi->getContactinfo();
+        $vi = $p->getvitals();
         $p->setPatientinfo(null);
         $p->setCaretakerinfo(null);
-        
+        $pi->setpatient(null);
+        $pi->setContactinfo(null);
+        $ci->setPatientinfo(null);
+        $ca->setpatient(null);
+
         if(!is_null($ci))
             $this->em->remove($ci);
         echo 'check1';
@@ -102,6 +93,7 @@ use function PHPUnit\Framework\isNull;
 
         if(!is_null($vi))
             foreach ($vi as $v){
+                
                 $this->em->remove($v);//must get all vitals then do remove every vital
             } 
         echo 'check3';

@@ -41,6 +41,11 @@ class patientinfo
     protected $patient;
 
     /**
+     * @ORM\column(type="integer")
+     **/
+    protected $patient_id;
+
+    /**
      * Set id.
      *
      * @param int $id
@@ -182,6 +187,10 @@ class patientinfo
     public function getPatient()
     {
         return $this->patient;
+    }
+
+    public function setPatientid($i){
+        $this->patient_id = $i;
     }
 
 }
