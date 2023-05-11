@@ -7,6 +7,7 @@ use Api\Entities\Doctrine\Primary;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\VarDumper\VarDumper;
 
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
 
 /**
@@ -43,22 +44,21 @@ class myfunctions
         /**
          * @var $i Primary\patientinfo::class
          */
-        if(!isNull($pwsn) && !isNull($pwsp)){
         foreach ($pwsn as $i) {
-            var_dump($i);
-            $nnp[] = $i->getpatient()->getId();
+            $nnp[] = $i->getId();
+            echo "2";
         }
         /**
          * @var $x Primary\contactinfo::class
          */
         foreach ($pwsp as $x){
-            $nnc[] = $x->getpatientinfo()->getpatient()->getId();
+            $nnc[] = $x->getpatientinfo()->getId();
+            echo "3";
         }
         $c = array_intersect($nnc, $nnp);
 
         return !empty($c);
-    }
-    return (false);
+    
 
     }
 }
